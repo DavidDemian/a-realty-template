@@ -1,6 +1,46 @@
-# Getting Started with Create React App
+# A Realty Template
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This real estate website template was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+## Formspree Contact Form Integration
+
+The contact form on this website is integrated with [Formspree](https://formspree.io/), a form backend service that allows you to handle form submissions without setting up your own server.
+
+### How to Update the Formspree Endpoint
+
+To use this template with your own Formspree account:
+
+1. Create a Formspree account at [formspree.io](https://formspree.io/) if you don't have one already
+2. Create a new form in your Formspree dashboard
+3. Get your form endpoint URL (it will look like `https://formspree.io/f/xayrgjzk`)
+4. Open the file `src/config/siteConfig.js`
+5. Find the `contact` object and update the `formspreeEndpoint` value with your own Formspree endpoint:
+
+```javascript
+// Contact Section Configuration
+export const contact = {
+  // ... other properties
+  formspreeEndpoint: 'https://formspree.io/f/YOUR_FORM_ID', // Replace with your Formspree form ID
+  // ... other properties
+};
+```
+
+That's it! The contact form will now send submissions to your Formspree account.
+
+### Additional Customization
+
+You can customize the form fields and submission data in the `ContactForm.js` component. The form is set up to send the following fields to Formspree:
+
+- Name
+- Email
+- Phone
+- Subject
+- Message
+- Newsletter subscription status
+
+If you need to add or remove fields, modify the `formData` state and the corresponding JSX in the `ContactForm.js` file.
+
+# Getting Started with Create React App
 
 ## Available Scripts
 

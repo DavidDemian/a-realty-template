@@ -1,21 +1,66 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import PhotoCarousel from '../components/PhotoCarousel';
 import InfoCard from '../components/InfoCard';
 import RealtorCard from '../components/RealtorCard';
 import MortgageCalculator from '../components/MortgageCalculator';
+import { useListings } from '../context/ListingsContext';
 import { useProperties } from '../context/PropertyContext';
 
 const PropertyDetails = () => {
   const { id } = useParams();
   const [property, setProperty] = useState(null);
   const [tab, setTab] = useState('photos');
+  const navigate = useNavigate();
+  
+  // We'll use both contexts during the transition period
   const { getProperty } = useProperties();
+  const { getListingById, loading } = useListings();
 
   useEffect(() => {
-    const foundProperty = getProperty(parseInt(id));
-    setProperty(foundProperty);
-  }, [id, getProperty]);
+    // First try to get the property from the new ListingsContext
+    const foundListing = getListingById(id);
+    
+    if (foundListing) {
+      // Transform the listing data to match the expected property structure
+      const transformedProperty = {
+        id: foundListing.listingId,
+        title: foundListing.propertyType || 'Property',
+        price: foundListing.price,
+        address: foundListing.address?.fullAddress || '',
+        bedrooms: foundListing.bedrooms,
+        bathrooms: foundListing.bathrooms,
+        area: foundListing.squareFootage,
+        description: foundListing.description,
+        status: foundListing.status === 'Active' ? 'For Sale' : 
+                foundListing.status === 'Rental' ? 'For Rent' : foundListing.status,
+        featured: foundListing.featured,
+        // Transform photos array to a single image for backward compatibility
+        image: foundListing.photos && foundListing.photos.length > 0 ? 
+               foundListing.photos[0].url : null,
+        // Keep the full photos array for the new component
+        images: foundListing.photos ? foundListing.photos.map(photo => photo.url) : [],
+        // Additional IDX data
+        yearBuilt: foundListing.yearBuilt,
+        propertyType: foundListing.propertyType,
+        listingId: foundListing.listingId,
+        daysOnMarket: foundListing.daysOnMarket,
+        listingAgent: foundListing.listingAgent
+      };
+      
+      setProperty(transformedProperty);
+    } else if (!loading) {
+      // If not found in ListingsContext and not still loading, try the old PropertyContext
+      const oldProperty = getProperty(parseInt(id));
+      
+      if (oldProperty) {
+        setProperty(oldProperty);
+      } else {
+        // If not found in either context, property doesn't exist
+        console.log('Property not found');
+      }
+    }
+  }, [id, getListingById, getProperty, loading]);
 
   if (!property) {
     return (
@@ -44,6 +89,19 @@ const PropertyDetails = () => {
     );
   }
 
+  // If loading, show a loading state
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="animate-pulse text-center">
+          <div className="h-8 bg-gray-200 rounded w-48 mx-auto mb-4"></div>
+          <div className="h-4 bg-gray-200 rounded w-64 mx-auto mb-8"></div>
+          <div className="h-64 bg-gray-100 rounded-lg w-full max-w-2xl mx-auto"></div>
+        </div>
+      </div>
+    );
+  }
+
   const generateImages = (baseImage) => {
     if (!baseImage) return [];
     return [
@@ -54,17 +112,19 @@ const PropertyDetails = () => {
     ];
   };
 
-  const enhancedProperty = {
+  const enhancedProperty = property ? {
     ...property,
-    bedrooms: property.bedrooms || '3',
-    bathrooms: property.bathrooms || '2',
-    squareFeet: property.squareFeet || '1,800',
+    bedrooms: property.bedrooms || 3,
+    bathrooms: property.bathrooms || 2,
+    squareFeet: property.area || property.squareFootage || 1800,
     garage: property.garage || '2 Cars',
-    type: property.type || 'Single Family',
-    yearBuilt: property.yearBuilt || '2015',
+    type: property.propertyType || property.type || 'Single Family',
+    yearBuilt: property.yearBuilt || 2015,
     images: property.images && property.images.length > 0 ? property.images : generateImages(property.image),
     tour360: property.tour360 || "https://www.google.com/maps/embed?pb=!4v1717631773787!6m8!1m7!1sCAoSLEFGMVFpcE9fUHZQbXJwUDRJWFhfbXNJWnhHVnJpVnFxTDFVNWxVQnRXTFE3!2m2!1d25.7616798!2d-80.1917902!3f30!4f0!5f0.7820865974627469",
-  };
+    // Add MLS ID for IDX data
+    mlsId: property.listingId || `MLS-${property.id}`
+  } : null;
 
   return (
     <div className="max-w-6xl mx-auto p-8">
@@ -89,7 +149,14 @@ const PropertyDetails = () => {
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-2">{property?.title}</h1>
         <p className="text-gray-600">{property?.address}</p>
-        <p className="text-green-600 font-bold text-2xl mt-2">{property?.price}</p>
+        <p className="text-green-600 font-bold text-2xl mt-2">
+          ${property?.price?.toLocaleString()}
+          {property?.status === 'For Rent' && <span className="text-sm font-normal">/mo</span>}
+        </p>
+        {/* Display MLS ID for IDX data */}
+        {enhancedProperty?.mlsId && (
+          <p className="text-gray-500 text-sm mt-1">MLS# {enhancedProperty.mlsId}</p>
+        )}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

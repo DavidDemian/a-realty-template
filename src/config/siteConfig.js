@@ -162,7 +162,12 @@ export const contact = {
   email: brand.email,
   phone: brand.phone,
   address: brand.address.full,
-  formSubmitEndpoint: '/api/contact',
+  // IMPORTANT: To use this form with your own Formspree account:
+  // 1. Create a new form in your Formspree dashboard at https://formspree.io/forms
+  // 2. Copy your form endpoint (it will look like https://formspree.io/f/xayrgjzk)
+  // 3. Replace the value below with your own Formspree endpoint
+  formspreeEndpoint: 'https://formspree.io/f/xayrgjzk', // Replace with your Formspree form ID
+  newsletterText: 'Subscribe to our newsletter for updates on new properties and market trends.',
   mapLocation: brand.address.full
 };
 

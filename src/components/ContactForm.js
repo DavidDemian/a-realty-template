@@ -76,55 +76,60 @@ const ContactForm = ({ className = '', ...props }) => {
       return;
     }
     
-    // Simulate form submission
+    // Set loading state
     setFormStatus({
-      submitted: true,
-      success: true,
-      message: 'Thank you for your message! We will get back to you soon.'
+      submitted: false,
+      success: false,
+      message: 'Sending your message...'
     });
     
-    // Reset form after successful submission
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      subject: '',
-      message: '',
-      newsletter: false
-    });
+    // Get the form element
+    const form = e.target;
     
-    // In a real application, you would send the form data to a server
-    // Example with formspree:
-    // fetch(contact.formspreeEndpoint, {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body: JSON.stringify(formData)
-    // })
-    //   .then(response => response.json())
-    //   .then(data => {
-    //     setFormStatus({
-    //       submitted: true,
-    //       success: true,
-    //       message: 'Thank you for your message! We will get back to you soon.'
-    //     });
-    //     setFormData({
-    //       name: '',
-    //       email: '',
-    //       phone: '',
-    //       subject: '',
-    //       message: '',
-    //       newsletter: false
-    //     });
-    //   })
-    //   .catch(error => {
-    //     setFormStatus({
-    //       submitted: true,
-    //       success: false,
-    //       message: 'Oops! Something went wrong. Please try again later.'
-    //     });
-    //   });
+    // Create form data object
+    const formDataToSend = new FormData(form);
+    
+    // Submit the form to Formspree
+    fetch("https://formspree.io/f/xrbkglvq", {
+      method: 'POST',
+      body: formDataToSend,
+      headers: {
+        'Accept': 'application/json'
+      }
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`Form submission failed: ${response.status} ${response.statusText}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        // Success
+        console.log('Form submitted successfully:', data);
+        setFormStatus({
+          submitted: true,
+          success: true,
+          message: 'Thank you for your message! We will get back to you soon.'
+        });
+        
+        // Reset form after successful submission
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          subject: '',
+          message: '',
+          newsletter: false
+        });
+      })
+      .catch(error => {
+        console.error('Error submitting form:', error);
+        setFormStatus({
+          submitted: true,
+          success: false,
+          message: `Oops! Something went wrong. ${error.message || 'Please try again later.'}`
+        });
+      });
   };
   
   return (
@@ -241,7 +246,11 @@ const ContactForm = ({ className = '', ...props }) => {
                     </Button>
                   </div>
                 ) : (
-                  <form onSubmit={handleSubmit}>
+                  <form 
+                    action="https://formspree.io/f/xrbkglvq"
+                    method="POST"
+                    onSubmit={handleSubmit}
+                  >
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                       <div>
                         <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
@@ -339,6 +348,14 @@ const ContactForm = ({ className = '', ...props }) => {
                         </label>
                       </div>
                     </div>
+                    
+                    {/* Hidden fields for Formspree */}
+                    <input type="hidden" name="_subject" value={`New message from ${formData.name}`} />
+                    <input type="hidden" name="_format" value="plain" />
+                    <input type="hidden" name="_replyto" value={formData.email} />
+                    <input type="hidden" name="_next" value={window.location.href} />
+                    <input type="hidden" name="_source" value="homepage_contact_form" />
+                    <input type="text" name="_gotcha" style={{ display: 'none' }} />
                     
                     <div className="text-right">
                       <Button

@@ -19,6 +19,7 @@ import Footer from './components/Footer';
 // Context Providers
 import { AuthProvider } from './context/AuthContext';
 import { PropertyProvider } from './context/PropertyContext';
+import { ListingsProvider } from './context/ListingsContext';
 
 // Config
 import { seo } from './config/siteConfig';
@@ -31,6 +32,7 @@ function App() {
   return (
     <AuthProvider>
       <PropertyProvider>
+        <ListingsProvider>
         <Helmet>
           <title>{seo.title}</title>
           <meta name="description" content={seo.description} />
@@ -56,6 +58,7 @@ function App() {
           
           <Footer />
         </div>
+        </ListingsProvider>
       </PropertyProvider>
     </AuthProvider>
   );
