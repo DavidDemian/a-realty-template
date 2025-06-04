@@ -55,7 +55,9 @@ const Header = ({ className = '', ...props }) => {
     <header
       className={`
         fixed top-0 left-0 right-0 z-50 transition-all duration-300
-        ${isScrolled ? 'bg-white shadow-md py-3' : 'bg-transparent py-5'}
+        ${isScrolled 
+          ? 'bg-white shadow-md py-1 sm:py-2 md:py-3' 
+          : 'bg-transparent py-2 sm:py-3 md:py-5'}
         ${className}
       `}
       {...props}
@@ -64,11 +66,11 @@ const Header = ({ className = '', ...props }) => {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="relative z-10">
-            <div className="p-2 rounded">
+            <div className="p-1 sm:p-1.5 md:p-2 rounded">
               <img
                 src={brand.logo}
                 alt={brand.name}
-                className={`h-22 transition-all duration-300 ${isScrolled ? 'brightness-100 opacity-90' : 'brightness-0 invert opacity-100'}`}
+                className={`transition-all duration-300 h-10 sm:h-12 md:h-14 ${isScrolled ? 'brightness-100 opacity-90' : 'brightness-0 invert opacity-100'}`}
               />
             </div>
           </Link>
