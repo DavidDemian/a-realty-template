@@ -137,11 +137,11 @@ const ContactForm = ({ className = '', ...props }) => {
           />
         </AnimatedElement>
         
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 mt-12">
+        <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 mt-12">
           {/* Contact Information */}
           <AnimatedElement animation="slide-right" duration={800}>
-            <div className="lg:col-span-1">
-              <div className="bg-white rounded-lg shadow-soft p-8">
+            <div className="h-full">
+              <div className="bg-white rounded-lg shadow-soft p-8 h-full flex flex-col justify-between">
                 <h3 className="text-xl font-bold text-gray-800 mb-6">Contact Information</h3>
                 
                 <div className="space-y-6">
@@ -223,8 +223,8 @@ const ContactForm = ({ className = '', ...props }) => {
           
           {/* Contact Form */}
           <AnimatedElement animation="slide-left" duration={800} delay={300}>
-            <div className="lg:col-span-2">
-              <div className="bg-white rounded-lg shadow-soft p-8 md:p-10">
+            <div className="h-full">
+              <div className="bg-white rounded-lg shadow-soft p-8 md:p-10 h-full">
                 {formStatus.submitted && formStatus.success ? (
                   <div className="text-center py-12">
                     <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-6">

@@ -5,6 +5,7 @@ import Button from './ui/Button';
 import { hero } from '../config/siteConfig';
 import { AnimatedElement } from '../utils/animations';
 import './Hero.css';
+import featuredImage from '../assets/IMG_3562.PNG';
 
 /**
  * Hero Component
@@ -36,14 +37,24 @@ const Hero = ({ className = '', ...props }) => {
         ref={backgroundRef}
         className="hero-background absolute inset-0 w-full h-full"
         style={{
-          backgroundImage: `url(${hero.backgroundImage})`,
+          backgroundImage: `url(${require('../assets/luxury-house.jpg')})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
-      ></div>
+      >
+        {/* Animated overlay element */}
+        <div className="absolute inset-0 bg-gradient-radial from-transparent to-[#0a2342]/50 animate-pulse-slow"></div>
+      </div>
       
       {/* Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#0a2342]/70 to-[#0a2342]/90"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-[#0a2342]/60 to-[#0a2342]/80"></div>
+      
+      {/* Animated floating elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute w-64 h-64 rounded-full bg-[#f0c040]/10 blur-xl top-1/4 left-1/4 animate-float-slow"></div>
+        <div className="absolute w-48 h-48 rounded-full bg-[#0a2342]/20 blur-xl bottom-1/3 right-1/4 animate-float-medium"></div>
+        <div className="absolute w-32 h-32 rounded-full bg-white/10 blur-xl top-1/3 right-1/3 animate-float-fast"></div>
+      </div>
       
       <Container className="relative z-10 py-20">
         <div className="max-w-3xl">
@@ -111,6 +122,30 @@ const Hero = ({ className = '', ...props }) => {
               <div className="w-1 h-2 bg-[#f0c040] rounded-full animate-bounce"></div>
             </div>
           </div>
+        </AnimatedElement>
+      </div>
+      
+      {/* Featured Image in Lower Right Corner */}
+      <div 
+        className="fixed bottom-10 right-10 z-50"
+        style={{
+          position: 'absolute',
+          bottom: '40px',
+          right: '40px',
+          zIndex: 9999
+        }}
+      >
+        <AnimatedElement animation="fade-in" delay={1500} duration={1000}>
+          <img 
+            src={featuredImage} 
+            alt="Featured Property" 
+            className="w-128 h-auto rounded-lg shadow-xl transform hover:scale-105 transition-transform duration-300"
+            style={{ 
+              boxShadow: '0 10px 25px rgba(0, 0, 0, 0.5)'
+            }}
+            onLoad={() => console.log('Featured image loaded successfully')}
+            onError={(e) => console.error('Error loading featured image:', e)}
+          />
         </AnimatedElement>
       </div>
     </section>

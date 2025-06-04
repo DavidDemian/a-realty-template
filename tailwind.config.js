@@ -49,6 +49,10 @@ module.exports = {
         'slide-down': 'slideDown 0.5s ease-in-out',
         'slide-left': 'slideLeft 0.5s ease-in-out',
         'slide-right': 'slideRight 0.5s ease-in-out',
+        'float-slow': 'float 8s ease-in-out infinite',
+        'float-medium': 'float 6s ease-in-out infinite alternate',
+        'float-fast': 'float 4s ease-in-out infinite alternate-reverse',
+        'pulse-slow': 'pulse 6s ease-in-out infinite',
       },
       keyframes: {
         fadeIn: {
@@ -70,6 +74,16 @@ module.exports = {
         slideRight: {
           '0%': { transform: 'translateX(-20px)', opacity: '0' },
           '100%': { transform: 'translateX(0)', opacity: '1' },
+        },
+        float: {
+          '0%': { transform: 'translateY(0px) translateX(0px)' },
+          '50%': { transform: 'translateY(-20px) translateX(10px)' },
+          '100%': { transform: 'translateY(0px) translateX(0px)' },
+        },
+        pulse: {
+          '0%': { opacity: '0.4' },
+          '50%': { opacity: '0.6' },
+          '100%': { opacity: '0.4' },
         },
       },
       transitionTimingFunction: {

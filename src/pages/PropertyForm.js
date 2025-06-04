@@ -31,14 +31,23 @@ const PropertyForm = () => {
 
   useEffect(() => {
     if (isEditing) {
-      const property = getProperty(parseInt(id));
+      // Try both string and number ID to ensure compatibility
+      const propertyId = parseInt(id);
+      const property = getProperty(propertyId) || getProperty(id);
+      
       if (property) {
+        // Format price as string with $ if it's a number
+        const formattedPrice = typeof property.price === 'number' 
+          ? `$${property.price.toLocaleString()}` 
+          : property.price;
+        
         setFormData({
           ...property,
           // If these properties don't exist in the data, provide defaults
+          price: formattedPrice,
           bedrooms: property.bedrooms || '',
           bathrooms: property.bathrooms || '',
-          squareFeet: property.squareFeet || '',
+          squareFeet: property.area || property.squareFeet || '',
           garage: property.garage || '',
           type: property.type || '',
           yearBuilt: property.yearBuilt || '',
@@ -47,6 +56,8 @@ const PropertyForm = () => {
         });
         setMainImagePreview(property.image);
         setAdditionalImagePreviews(property.images || []);
+      } else {
+        console.error(`Property with ID ${id} not found`);
       }
     }
   }, [id, isEditing, getProperty]);

@@ -23,9 +23,9 @@ const FeaturedListing = ({ className = '', ...props }) => {
       >
         <div className="relative">
           <img
-            src={property.image}
+            src={require('../assets/property-house.jpg')}
             alt={property.name}
-            className="w-full h-80 object-cover"
+            className="w-full h-80 object-cover transition-transform duration-700 hover:scale-105"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
           <div className="absolute top-4 left-4">

@@ -126,7 +126,7 @@ const AdminDashboard = () => {
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                     <div className="flex space-x-2">
                       <Link
-                        to={`/admin/property/edit/${property.id}`}
+                        to={`/admin/property/${property.id}`}
                         className="text-indigo-600 hover:text-indigo-900"
                       >
                         Edit
