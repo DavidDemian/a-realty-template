@@ -68,7 +68,7 @@ const Header = ({ className = '', ...props }) => {
               <img
                 src={brand.logo}
                 alt={brand.name}
-                className={`h-24 transition-all duration-300 ${isScrolled ? 'brightness-100 opacity-90' : 'brightness-0 invert opacity-100'}`}
+                className={`h-22 transition-all duration-300 ${isScrolled ? 'brightness-100 opacity-90' : 'brightness-0 invert opacity-100'}`}
               />
             </div>
           </Link>
