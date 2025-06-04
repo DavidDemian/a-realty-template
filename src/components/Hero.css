@@ -1,0 +1,80 @@
+/* Hero Section Animations */
+.hero-section {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Background panning animation */
+@keyframes panBackground {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.hero-background {
+  animation: panBackground 60s ease infinite;
+  background-size: 120% auto !important;
+  transform-origin: center center;
+  transition: transform 0.2s ease-out;
+}
+
+/* Subtle Ken Burns effect for the background */
+@keyframes kenBurns {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.hero-background {
+  animation: kenBurns 30s ease-in-out infinite, panBackground 60s ease infinite;
+}
+
+/* Scroll down animation */
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0) translateX(-50%);
+  }
+  40% {
+    transform: translateY(-20px) translateX(-50%);
+  }
+  60% {
+    transform: translateY(-10px) translateX(-50%);
+  }
+}
+
+.animate-bounce {
+  animation: bounce 2s infinite;
+}
+
+/* Button hover effects */
+.btn-primary {
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(10, 35, 66, 0.1);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 7px 14px rgba(10, 35, 66, 0.2);
+}
+
+.btn-white {
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1);
+}
+
+.btn-white:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 7px 14px rgba(255, 255, 255, 0.2);
+}
