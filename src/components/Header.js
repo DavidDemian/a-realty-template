@@ -64,11 +64,13 @@ const Header = ({ className = '', ...props }) => {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="relative z-10">
-            <img
-              src={brand.logo}
-              alt={brand.name}
-              className={`h-10 transition-all duration-300 ${isScrolled ? 'brightness-100' : 'brightness-0 invert'}`}
-            />
+            <div className="p-2 rounded">
+              <img
+                src={brand.logo}
+                alt={brand.name}
+                className={`h-24 transition-all duration-300 ${isScrolled ? 'brightness-100 opacity-90' : 'brightness-0 invert opacity-100'}`}
+              />
+            </div>
           </Link>
           
           {/* Desktop Navigation */}

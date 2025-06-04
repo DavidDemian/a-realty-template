@@ -20,7 +20,7 @@ const Footer = ({ className = '', ...props }) => {
               <img
                 src={brand.logo}
                 alt={brand.name}
-                className="h-10"
+                className="h-24"
               />
             </Link>
             <p className="text-gray-400 text-sm mb-4 max-w-xs">

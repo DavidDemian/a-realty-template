@@ -9,7 +9,7 @@ export const brand = {
   name: 'A Realty',
   tagline: 'Luxury Real Estate',
   description: 'A premier real estate agency specializing in luxury properties throughout South Florida.',
-  logo: '/assets/lllogo.png',
+  logo: require('../assets/lllllogo.png'),
   email: 'contact@arealty.com',
   phone: '(305) 555-1234',
   address: {

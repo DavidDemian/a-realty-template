@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import PhotoCarousel from '../components/PhotoCarousel';
 import InfoCard from '../components/InfoCard';
 import RealtorCard from '../components/RealtorCard';
+import MortgageCalculator from '../components/MortgageCalculator';
 import { useProperties } from '../context/PropertyContext';
 
 const PropertyDetails = () => {
@@ -153,9 +154,13 @@ const PropertyDetails = () => {
           </InfoCard>
         </div>
 
-        {/* Realtor Info */}
-        <div>
+        {/* Realtor Info and Mortgage Calculator */}
+        <div className="space-y-6">
           <RealtorCard />
+          <MortgageCalculator 
+            showTotalInterest={true}
+            animateResult={true}
+          />
         </div>
       </div>
     </div>

@@ -5,7 +5,7 @@ import Button from './ui/Button';
 import { hero } from '../config/siteConfig';
 import { AnimatedElement } from '../utils/animations';
 import './Hero.css';
-import featuredImage from '../assets/IMG_3562.PNG';
+// Removed featured image import as it's no longer needed
 
 /**
  * Hero Component
@@ -125,29 +125,7 @@ const Hero = ({ className = '', ...props }) => {
         </AnimatedElement>
       </div>
       
-      {/* Featured Image in Lower Right Corner */}
-      <div 
-        className="fixed bottom-10 right-10 z-50"
-        style={{
-          position: 'absolute',
-          bottom: '40px',
-          right: '40px',
-          zIndex: 9999
-        }}
-      >
-        <AnimatedElement animation="fade-in" delay={1500} duration={1000}>
-          <img 
-            src={featuredImage} 
-            alt="Featured Property" 
-            className="w-128 h-auto rounded-lg shadow-xl transform hover:scale-105 transition-transform duration-300"
-            style={{ 
-              boxShadow: '0 10px 25px rgba(0, 0, 0, 0.5)'
-            }}
-            onLoad={() => console.log('Featured image loaded successfully')}
-            onError={(e) => console.error('Error loading featured image:', e)}
-          />
-        </AnimatedElement>
-      </div>
+      {/* Featured Image removed to prevent layout issues */}
     </section>
   );
 };
